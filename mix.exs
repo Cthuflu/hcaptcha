@@ -1,13 +1,16 @@
 defmodule Hcaptcha.Mixfile do
   use Mix.Project
 
+  @source_url "https://github.com/cthuflu/hcaptcha"
+  @version "0.9.0"
+
   def project do
     [
       app: :hcaptcha,
       name: "hcaptcha",
-      source_url: "https://github.com/Sebi55/hcaptcha",
-      version: "0.0.2",
-      elixir: "~> 1.6",
+      source_url: @source_url,
+      version: @version,
+      elixir: "~> 1.14",
       description: description(),
       deps: deps(),
       package: package(),
@@ -45,7 +48,7 @@ defmodule Hcaptcha.Mixfile do
   defp deps do
     [
       {:httpoison, "~> 1.8"},
-      {:jason, "~> 1.0", optional: true},
+      {:jason, "~> 1.2", optional: true},
       {:credo, "~> 1.0", only: [:dev, :test], runtime: false},
       {:ex_doc, "0.19.3", only: :dev},
       {:dialyxir, "~> 0.5", only: [:dev]},
@@ -56,9 +59,13 @@ defmodule Hcaptcha.Mixfile do
   defp package do
     [
       files: ["lib", "mix.exs", "README.md", "LICENSE"],
-      maintainers: ["Sebastian Grebe"],
+      maintainers: ["Jacob Pfeiffer"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/Sebi55/hcaptcha", "Forked" => "https://github.com/samueljseay/recaptcha"}
+      links: %{
+        "GitHub" => @source_url,
+        "Forked From" => "https://github.com/A-World-For-Us/hcaptcha",
+        "Original Recaptcha" => "https://github.com/samueljseay/recaptcha"
+      }
     ]
   end
 end

@@ -1,7 +1,7 @@
 defmodule HcaptchaTest do
   use ExUnit.Case, async: true
 
-  # see https://developers.google.com/hcaptcha/docs/faq#id-like-to-run-automated-tests-with-hcaptcha-v2-what-should-i-do
+  # see https://docs.hcaptcha.com/#integration-testing-test-keys
   @hCaptcha_test_secret "0x0000000000000000000000000000000000000000"
 
   test "When the supplied hcaptcha-response is invalid, multiple errors are returned" do
