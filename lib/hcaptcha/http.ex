@@ -10,7 +10,7 @@ defmodule Hcaptcha.Http do
     {"Accept", "application/json"}
   ]
 
-  @default_verify_url "https://hcaptcha.com/siteverify"
+  @default_verify_url "https://api.hcaptcha.com/siteverify"
 
   @doc """
   Sends an HTTP request to the hCAPTCHA version 2.0 API.

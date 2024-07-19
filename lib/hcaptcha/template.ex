@@ -20,8 +20,8 @@ defmodule Hcaptcha.Template do
   To convert the string to html code, use Phoenix.HTML.Raw/1 method
   """
   def display(options \\ []) do
-    public_key =
-      options[:public_key] || Config.get_env(:hcaptcha, :public_key)
+    sitekey =
+      options[:sitekey] || Config.get_env(:hcaptcha, :sitekey)
 
     callback =
       if options[:size] == "invisible" && is_nil(options[:callback]) do
@@ -40,7 +40,7 @@ defmodule Hcaptcha.Template do
     options_dict = Keyword.put(options, :onload, onload)
 
     render_template(%{
-      public_key: public_key,
+      sitekey: sitekey,
       callback: callback,
       options: options_dict
     })

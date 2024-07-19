@@ -1,10 +1,10 @@
 import Config
 
 config :hcaptcha,
-  verify_url: "https://hcaptcha.com/siteverify",
+  verify_url: "https://api.hcaptcha.com/siteverify",
   timeout: 5000,
-  public_key: {:system, "HCAPTCHA_PUBLIC_KEY"},
-  secret: {:system, "HCAPTCHA_PRIVATE_KEY"}
+  sitekey: {:system, "HCAPTCHA_SITEKEY"},
+  secret: {:system, "HCAPTCHA_SECRET"}
 
 config :hcaptcha, :json_library, Jason
 

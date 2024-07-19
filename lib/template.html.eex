@@ -31,7 +31,7 @@
 <% end %>
 
 <div class="h-captcha"
-  data-sitekey="<%= @public_key %>"
+  data-sitekey="<%= @sitekey %>"
   data-theme="<%= @options[:theme] %>"
   data-type="<%= @options[:type] %>"
   data-tabindex="<%= @options[:tabindex] %>"
@@ -46,7 +46,7 @@
     <div style="width: 302px; height: 422px;">
       <div style="width: 302px; height: 422px; position: relative;">
         <div style="width: 302px; height: 422px; position: absolute;">
-          <iframe src="https://www.google.com/hcaptcha/api/fallback?k=<%= @public_key %>&hl=<%= @options[:hl] %>"
+          <iframe src="https://www.google.com/hcaptcha/api/fallback?k=<%= @sitekey %>&hl=<%= @options[:hl] %>"
                        frameborder="0" scrolling="no"
                        style="width: 302px; height:422px; border-style: none;">
           </iframe>
