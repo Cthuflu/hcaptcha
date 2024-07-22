@@ -1,17 +1,15 @@
 # Hcaptcha
 
-[![Hex.pm](https://img.shields.io/badge/Hex-v2.1.1-green.svg)](https://hexdocs.pm/hcaptcha)
+[![Hex.pm](https://img.shields.io/hexpm/v/hcaptcha.svg)](https://hex.pm/packages/hcaptcha)
+[![Documentation](https://img.shields.io/badge/documentation-gray)](https://hexdocs.pm/hcaptcha/)
 
 A simple Elixir package for implementing [hCAPTCHA] in Elixir applications.
 
 [hCAPTCHA]: https://www.hcaptcha.com/
 
-The package is fork of the [recaptcha] package which uses the same flow as needed for hCaptcha. It would also be possible to integrate hCaptcha in this package but I was not able to wait for PRs to be merged so I just forked the repo.
+The package is fork of the [recaptcha] package which uses a similar flow as needed for hCaptcha.
 
 [recaptcha]: https://github.com/samueljseay/recaptcha
-
-### Important Notice
-The repo works for me but is not tested that all configuration options or callbacks given by hCaptcha are processed correctly. Feel free to open PRs to resolve dependencies on the recaptcha API.
 
 ## Installation
 
@@ -20,7 +18,7 @@ The repo works for me but is not tested that all configuration options or callba
 ```elixir
   defp deps do
     [
-      {:hcaptcha, "~> 0.0.2"},
+      {:hcaptcha, "~> 0.9.0"},
     ]
   end
 ```
@@ -37,12 +35,12 @@ The repo works for me but is not tested that all configuration options or callba
 
 ## Config
 
-By default the public and private keys are loaded via the `HCAPTCHA_PUBLIC_KEY` and `HCAPTCHA_PRIVATE_KEY` environment variables.
+By default the public and private keys are loaded via the `HCAPTCHA_SITEKEY` and `HCAPTCHA_SECRET` environment variables.
 
 ```elixir
   config :hcaptcha,
-    public_key: {:system, "HCAPTCHA_PUBLIC_KEY"},
-    secret: {:system, "HCAPTCHA_PRIVATE_KEY"}
+    sitekey: {:system, "HCAPTCHA_SITEKEY"},
+    secret: {:system, "HCAPTCHA_SECRET"}
 ```
 
 ### JSON Decoding
@@ -101,8 +99,7 @@ function myOnLoadCallback() {
 
 Option                  | Action                                                 | Default
 :---------------------- | :----------------------------------------------------- | :------------------------
-`noscript`              | Renders default noscript code provided by google       | `false`
-`public_key`            | Sets key to the `data-sitekey` hCaptcha div attribute | Public key from the config file
+`sitekey`               | Sets key to the `data-sitekey` hCaptcha div attribute | Public key from the config file
 `hl`                    | Sets the language of the hCaptcha                     | en
 
 ### Verify API
@@ -120,9 +117,9 @@ Hcaptcha provides the `verify/2` method. Below is an example using a Phoenix con
 
 `verify` method sends a `POST` request to the hCAPTCHA API and returns 2 possible values:
 
-`{:ok, %Hcaptcha.Response{challenge_ts: timestamp, hostname: host}}` -> The captcha is valid, see the [documentation](https://developers.google.com/hcaptcha/docs/verify#api-response) for more details.
+`{:ok, %Hcaptcha.Response{challenge_ts: timestamp, hostname: host}}` -> The captcha is valid, see the [documentation](https://docs.hcaptcha.com/#verify-the-user-response-server-side) for more details.
 
-`{:error, errors}` -> `errors` contains atomised versions of the errors returned by the API, See the [error documentation](https://developers.google.com/hcaptcha/docs/verify#error-code-reference) for more details. Errors caused by timeouts in HTTPoison or Jason encoding are also returned as atoms. If the hcaptcha request succeeds but the challenge is failed, a `:challenge_failed` error is returned.
+`{:error, errors}` -> `errors` contains atomised versions of the errors returned by the API, See the [error documentation](https://docs.hcaptcha.com/#siteverify-error-codes-table) for more details. Errors caused by timeouts in HTTPoison or Jason encoding are also returned as atoms. If the hcaptcha request succeeds but the challenge is failed, a `:challenge_failed` error is returned.
 
 `verify` method also accepts a keyword list as the third parameter with the following options:
 
@@ -139,17 +136,19 @@ In order to test your endpoints you should set the secret key to the following v
 
 ```
 config :hcaptcha,
-  secret: "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
+  secret: "0x0000000000000000000000000000000000000000"
 ```
 
 Setting up tests without network access can be done also. When configured as such a positive or negative result can be generated locally.
 
 ```
+# In Config
 config :hcaptcha,
   http_client: Hcaptcha.Http.MockClient,
-  secret: "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
+  secret: "0x0000000000000000000000000000000000000000"
 
 
+# In Response Checks
   {:ok, _details} = Hcaptcha.verify("valid_response")
 
   {:error, _details} = Hcaptcha.verify("invalid_response")
